@@ -1,6 +1,6 @@
 from collections import Counter
 from sklearn.feature_extraction.text import *
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, Perceptron
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
@@ -89,17 +89,22 @@ lr_pred = lr.predict(test_data)
 
 print('Logistic Regression Accuracy: %.2f' % accuracy_score(y_test, lr_pred))
 
-# # Perceptron
+# # My Perceptron
 
 ppn = MulticlassPerceptron(4, Data.shape[1])
 
 ppn.fit(train_data, y_train, 5)
 ppn_pred = ppn.predict(test_data, test=True)
-# ppn = Perceptron(max_iter=50).fit(train_data, y_train)
 
-# ppn_pred = ppn.predict(test_data)
+print('My Perceptron Accuracy: %.2f' % accuracy_score(y_test, ppn_pred))
 
-print('Perceptron Accuracy: %.2f' % accuracy_score(y_test, ppn_pred))
+# SKLearn Perceptron
+
+ppn = Perceptron(max_iter=50).fit(train_data, y_train)
+
+ppn_pred = ppn.predict(test_data)
+
+print('SKlearn Perceptron Accuracy: %.2f' % accuracy_score(y_test, ppn_pred))
 
 # # Naive Bayes
 
