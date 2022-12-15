@@ -1,6 +1,7 @@
 from collections import Counter
 from sklearn.feature_extraction.text import *
 from sklearn.linear_model import LogisticRegression, Perceptron
+from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score
 from sklearn import preprocessing
@@ -58,7 +59,6 @@ training['Sentiment']=lb.fit_transform(training['Sentiment'])
 testing['Sentiment']=lb.fit_transform(testing['Sentiment'])
 
 
-
 X_train = training["Tweet_content"]
 X_test = testing["Tweet_content"]
 
@@ -79,8 +79,10 @@ vectorizer = CountVectorizer(stop_words=stopwords.words('english'), binary=True)
 # convert the data to a matrix of token counts
 Data = vectorizer.fit_transform(X_train_clean + X_test_clean)
 
-train_data = Data[:len(X_train_clean)]
-test_data = Data[len(X_train_clean):len(X_train_clean)+len(X_test_clean)]
+Y  = pd.concat([y_train, y_test])
+
+train_data, test_data, y_train, y_test = train_test_split(Data, Y, test_size=0.3)
+
 
 # Logistic Regression
 lr = LogisticRegression(max_iter=500).fit(train_data, y_train)
